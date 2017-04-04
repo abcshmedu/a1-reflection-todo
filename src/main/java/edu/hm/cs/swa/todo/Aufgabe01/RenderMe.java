@@ -6,12 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author Tobias Kroiss
+ * @author Dominik Grenz & Tobias Kroiss
  */
-@Target({ElementType.FIELD})
+@Target({ ElementType.FIELD, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RenderMe {
 
 	String with() default "";
-	
+
 }
