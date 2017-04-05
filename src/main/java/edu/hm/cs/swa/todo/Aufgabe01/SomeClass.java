@@ -18,5 +18,15 @@ public class SomeClass {
 	public SomeClass(int foo) {
 		this.foo = foo;
 	}
+	
+	@RenderMe
+	public int getFoo(){
+		return foo;
+	}
+	
+	@RenderMe(with = "edu.hm.cs.swa.todo.Aufgabe01.ArrayRenderer")
+	public int[] getIntArray() {
+		return array;
+	}
 
 }

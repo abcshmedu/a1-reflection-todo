@@ -1,6 +1,7 @@
 package edu.hm.cs.swa.todo.Aufgabe01;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -40,9 +41,33 @@ public class Renderer {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-
 				}
+			}
+		}
 
+		Method[] methods = cls.getDeclaredMethods();
+		for (Method m : methods) {
+			RenderMe annotation = m.getAnnotation(RenderMe.class);
+			if (annotation != null) {
+				m.setAccessible(true);
+				result += m.getName() + " ";
+				if (annotation.with().equals("")) {
+					try {
+						result += "(Type " + m.getReturnType() + "): " + m.invoke(obj_render) + "\n";
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+				} else {
+					try {
+						Class<?> array = Class.forName(annotation.with());
+						Method method = array.getMethod("render", m.getReturnType());
+						result += method.invoke(array.newInstance(), m.invoke(obj_render));
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 		return result;
