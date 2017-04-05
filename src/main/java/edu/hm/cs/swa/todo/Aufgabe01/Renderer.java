@@ -1,7 +1,6 @@
 package edu.hm.cs.swa.todo.Aufgabe01;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -17,24 +16,23 @@ public class Renderer {
 
 	public String render() {
 		String result = "";
-		Class<?> cls = obj_render.getClass();
+		Class< ? > cls = obj_render.getClass();
 		result = "Instance of " + cls.getName() + ":\n";
 		Field[] fields = cls.getDeclaredFields();
 		for (Field f : fields) {
 			RenderMe annotation = f.getAnnotation(RenderMe.class);
 			if (annotation != null) {
 				f.setAccessible(true);
-				result += f.getName() + " ";
+				result += f.getName() + " (Type ";
 				if (annotation.with().equals("")) {
 					try {
-						result += "(Type " + f.getType().getName() + "): " + f.get(obj_render) + "\n";
-
+						result += f.getType().getName() + "): " + f.get(obj_render) + "\n";
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				} else {
 					try {
-						Class<?> array = Class.forName(annotation.with());
+						Class< ? > array = Class.forName(annotation.with());
 						Method method = array.getMethod("render", f.getType());
 						result += method.invoke(array.newInstance(), f.get(obj_render));
 
@@ -50,20 +48,18 @@ public class Renderer {
 			RenderMe annotation = m.getAnnotation(RenderMe.class);
 			if (annotation != null) {
 				m.setAccessible(true);
-				result += m.getName() + " ";
+				result += m.getName() + " (Returntype: ";
 				if (annotation.with().equals("")) {
 					try {
-						result += "(Type " + m.getReturnType() + "): " + m.invoke(obj_render) + "\n";
+						result += m.getReturnType() + "): " + m.invoke(obj_render) + "\n";
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-
 				} else {
 					try {
-						Class<?> array = Class.forName(annotation.with());
+						Class< ? > array = Class.forName(annotation.with());
 						Method method = array.getMethod("render", m.getReturnType());
 						result += method.invoke(array.newInstance(), m.invoke(obj_render));
-
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -77,6 +73,5 @@ public class Renderer {
 		SomeClass toRender = new SomeClass(5);
 		Renderer renderer = new Renderer(toRender);
 		System.out.println(renderer.render());
-
 	}
 }

@@ -6,7 +6,7 @@ package edu.hm.cs.swa.todo.Aufgabe01;
 public class ArrayRenderer {
 
 	public String render(int[] array) {
-		String result = "(Type int[]) [";
+		String result = "int[]) [";
 		for (int index : array) {
 			result += index + ", ";
 		}
