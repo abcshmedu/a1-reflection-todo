@@ -86,7 +86,7 @@ public class Renderer {
     
     /**
      * This class is used to sort a Method[] by the method's names.
-     * @author Tobias Kroiss
+     * @author Dominik Grenz & Tobias Kroiss
      */
     public class MethodComperator implements Comparator<Method> {
         @Override
@@ -104,5 +104,4 @@ public class Renderer {
         Renderer renderer = new Renderer(toRender);
         System.out.println(renderer.render());
     }
-
 }

@@ -12,6 +12,10 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+/**
+ * This class is used to test the Renderer Class.
+ * @author Dominik Grenz & Tobias Kroiss
+ */
 @RunWith(Parameterized.class)
 public class ParameterizedRendererTest {
 
@@ -19,6 +23,11 @@ public class ParameterizedRendererTest {
     public static final int[] INTS = { 0, 5, 10 };
     public static final int INTS_LEN = INTS.length;
 
+    /**
+     *  This method creates some string-representations of an Object[][]
+     * (input object, expected string).
+     * @return list of an Object[][]
+     */
     @Parameters
     public static Collection<Object[]> data() {
 
@@ -40,11 +49,17 @@ public class ParameterizedRendererTest {
     @Parameter(1)
     public String expected;
 
+    /**
+     * This method creates a renderer object for the test.
+     */ 
     @Before
     public void initalize() {
         renderer = new Renderer(inputObj);
     }
 
+    /**
+     * This method tests the renderer object.
+     */
     @Test
     public void testRendering() {
         assertEquals(expected, renderer.render());
