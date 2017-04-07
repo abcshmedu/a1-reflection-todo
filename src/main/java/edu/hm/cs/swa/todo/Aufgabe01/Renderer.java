@@ -2,15 +2,18 @@ package edu.hm.cs.swa.todo.Aufgabe01;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * This class is used to render an object.
  * @author Dominik Grenz & Tobias Kroiss
  */
 public class Renderer {
-
+    
     private Object objToRender;
     private static final int VALUE = 5;
+    private Comparator<Method> comp = new MethodComperator();
 
     /**
      * Constructor which creates a new Renderer.
@@ -55,6 +58,7 @@ public class Renderer {
         }
 
         Method[] methods = cls.getDeclaredMethods();
+        Arrays.sort(methods, comp);
         for (Method m : methods) {
             RenderMe annotation = m.getAnnotation(RenderMe.class);
             if (annotation != null) {
@@ -79,6 +83,17 @@ public class Renderer {
         }
         return result;
     }
+    
+    /**
+     * This class is used to sort a Method[] by the method's names.
+     * @author Tobias Kroiss
+     */
+    public class MethodComperator implements Comparator<Method> {
+        @Override
+        public int compare(Method m1, Method m2) {
+              return m1.getName().compareTo(m2.getName());
+        }
+    }
 
     /**
      * Main-Method of the project.
@@ -89,4 +104,5 @@ public class Renderer {
         Renderer renderer = new Renderer(toRender);
         System.out.println(renderer.render());
     }
+
 }
